@@ -1,6 +1,6 @@
 # Todo List NestJS Demo
 
-A small NestJS REST API for a todo list demo. It uses in-memory storage so you can run it immediately without a database.
+A small NestJS REST API for a todo list demo. Todos are stored in Postgres using the `DATABASE_URL` environment variable.
 
 ## Setup
 
@@ -14,7 +14,29 @@ npm install
 npm run start:dev
 ```
 
+For local development without Docker, set `DATABASE_URL` first:
+
+```bash
+export DATABASE_URL="postgres://postgres:postgres@localhost:5432/todolist"
+```
+
 The API runs on `http://localhost:3000` by default. Swagger docs are available at `http://localhost:3000/docs`.
+
+## Docker Compose
+
+```bash
+docker compose up -d --build
+```
+
+The Compose setup runs the API, Postgres, and nginx. The API receives this Postgres connection string:
+
+```text
+postgres://postgres:postgres@db:5432/todolist
+```
+
+## Database Migrations
+
+SQL migrations live in `migrations/` and are applied automatically on API startup. Applied migration names are tracked in the `schema_migrations` table.
 
 ## Endpoints
 
